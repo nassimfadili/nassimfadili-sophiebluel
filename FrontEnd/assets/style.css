@@ -186,3 +186,20 @@ footer nav ul {
 	margin: 2em
 }
 
+.nav-list{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 30px;
+}
+
+.nav-projet{
+	padding: 10px 30px;
+    border: 1px solid #1D6154;
+    margin: 0 5px;
+	border-radius: 60px;
+	color: #1D6154;
+	font-size: 16px;
+	font-weight: 700;
+}
+
