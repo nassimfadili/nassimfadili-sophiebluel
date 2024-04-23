@@ -287,3 +287,7 @@ a {
 a:visited {
   color: inherit;
 }
+
+button:hover {
+  color: #1d6154;
+}
