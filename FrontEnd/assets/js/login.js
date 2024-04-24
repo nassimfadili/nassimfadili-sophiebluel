@@ -20,13 +20,10 @@ document.getElementById("login").addEventListener("submit", function (event) {
     body: JSON.stringify(formData),
   })
     .then((response) => {
-      if (!response.ok) {
+      if (response.status == 401) {
         throw new Error("Erreur de connexion");
       }
-      return response.json();
-    })
-    .then((data) => {
-      window.location.href = "/FrontEnd/assets/index.html";
+      window.location.href = "/FrontEnd/assets/index_edit.html";
     })
     .catch((error) => {
       console.error("Erreur:", error);
