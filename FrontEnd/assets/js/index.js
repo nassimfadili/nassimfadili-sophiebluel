@@ -1,8 +1,4 @@
 const galerie = document.querySelector(".gallery");
-const tous = document.getElementById("Tous");
-const objets = document.getElementById("Objets");
-const appartements = document.getElementById("Appartements");
-const hotelRestaurant = document.getElementById("HotelRestaurants");
 
 // Fonction pour créer et afficher une œuvre dans la galerie
 function creerEtAfficherOeuvre(oeuvre) {
@@ -29,46 +25,53 @@ function creerEtAfficherOeuvre(oeuvre) {
 fetch("http://localhost:5678/api/works")
   .then((response) => response.json()) // Convertir la réponse en JSON
   .then((data) => {
+    oeuvresData = data;
     // Afficher toutes les œuvres initialement
     data.forEach(creerEtAfficherOeuvre);
 
-    // Ajout de l'événement de clic sur l'élément "Appartements"
-    appartements.addEventListener("click", function () {
-      // Filtrer les œuvres pour obtenir uniquement celles avec la catégorie "Appartements"
-      const oeuvresAppartements = data.filter(
-        (work) => work.category.name === "Appartements"
-      );
-      // Effacer la galerie actuelle
-      galerie.innerHTML = "";
-      // Afficher les œuvres filtrées dans la galerie
-      oeuvresAppartements.forEach(creerEtAfficherOeuvre);
-    });
-    // Ajout de l'événement de clic sur l'élément "Hotel et Restaurants"
-    hotelRestaurant.addEventListener("click", function () {
-      // Filtrer les œuvres pour obtenir uniquement celles avec la catégorie "Hotel et Restaurants"
-      const oeuvresHotelRestaurants = data.filter(
-        (work) => work.category.name === "Hotels & restaurants"
-      );
-      // Effacer la galerie actuelle
-      galerie.innerHTML = "";
-      // Afficher les œuvres filtrées dans la galerie
-      oeuvresHotelRestaurants.forEach(creerEtAfficherOeuvre);
-    });
-    // Ajout de l'événement de clic sur l'élément "Objets"
-    objets.addEventListener("click", function () {
-      // Filtrer les œuvres pour obtenir uniquement celles avec la catégorie "Objets"
-      const oeuvresObjets = data.filter(
-        (work) => work.category.name === "Objets"
-      );
-      // Effacer la galerie actuelle
-      galerie.innerHTML = "";
-      // Afficher les œuvres filtrées dans la galerie
-      oeuvresObjets.forEach(creerEtAfficherOeuvre);
-    });
-    // Ajout de l'événement de clic sur l'élément "Tous"
-    tous.addEventListener("click", function () {
-      //Afficher toutes les oeuvres
-      galerie.innerHTML = "";
-      data.forEach(creerEtAfficherOeuvre);
-    });
+    const tousButton = document.createElement("button");
+    tousButton.classList.add("nav-projet");
+    tousButton.textContent = "Tous";
+    tousButton.addEventListener("click", afficherToutesOeuvres);
+    buttonFilter.appendChild(tousButton);
+  });
+
+// Récupérer la référence à l'élément contenant les boutons de filtre
+const buttonFilter = document.querySelector(".nav-list");
+
+// Fonction pour créer un bouton de filtre
+function creerFiltre(filterButton) {
+  const buttonElement = document.createElement("button");
+  buttonElement.classList.add("nav-projet");
+  buttonElement.textContent = filterButton.name;
+  buttonElement.addEventListener("click", function () {
+    if (filterButton.name === "Tous") {
+      afficherToutesOeuvres();
+    } else {
+      afficherFiltre(filterButton.name); // Appeler la fonction d'affichage de filtre avec le nom de la catégorie
+    }
+  });
+  buttonFilter.appendChild(buttonElement);
+}
+// Fonction pour afficher toutes les œuvres
+function afficherToutesOeuvres() {
+  galerie.innerHTML = ""; // Vider la galerie
+  oeuvresData.forEach(creerEtAfficherOeuvre); // Afficher toutes les œuvres
+}
+// Fonction pour afficher les œuvres filtrées
+function afficherFiltre(nomCategorie) {
+  galerie.innerHTML = "";
+  const oeuvresFilter = oeuvresData.filter(
+    (work) => work.category.name === nomCategorie
+  );
+  oeuvresFilter.forEach(creerEtAfficherOeuvre);
+}
+// Récupérer les données des catégories et créer les boutons de filtre
+fetch("http://localhost:5678/api/categories")
+  .then((response) => response.json())
+  .then((data) => {
+    data.forEach(creerFiltre); // Pour chaque catégorie, créer un bouton de filtre
+  })
+  .catch((error) => {
+    console.error("Erreur de récupération des données:", error);
   });
