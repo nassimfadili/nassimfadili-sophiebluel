@@ -53,8 +53,8 @@
       </section>
         <div class="edit-projet">
             <h2 class="projet">Mes Projets</h2>
-                <div class="modifier-hover">
-                    <i class="fa-regular fa-pen-to-square"></i>
+                <div class="modifier-hover" onclick="openModal()">
+                  <i class="fa-regular fa-pen-to-square"></i>
                     <p>modifier</p>
                 </div>
         </div>
@@ -63,8 +63,13 @@
           </div>
         </nav>
         <div class="gallery">
-
         </div>
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Galerie Photo</h2>
+          </div>
+        </div>   
       </section>
       <section id="contact">
         <h2>Contact</h2>

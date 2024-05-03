@@ -87,3 +87,25 @@ fetchCategories()
   .then((data) => {
     data.forEach(creerFiltre); // Pour chaque catégorie, créer un bouton de filtre
   });
+
+  // Récupérer la modal et le bouton de fermeture
+const modal = document.getElementById("modal");
+const span = document.getElementsByClassName("close")[0];
+
+// Fonction pour ouvrir la modal
+function openModal() {
+  modal.style.display = "block";
+}
+
+// Fonction pour fermer la modal lorsque l'utilisateur clique sur le bouton de fermeture
+span.onclick = function() {
+  modal.style.display = "none";
+};
+
+// Fermer la modal si l'utilisateur clique en dehors de celle-ci
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
