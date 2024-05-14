@@ -1,5 +1,23 @@
 const galerie = document.querySelector(".gallery");
 
+// Requête Fetch pour obtenir les données JSON
+function fetchOeuvres() {
+  return fetch("http://localhost:5678/api/works")
+    .then((response) => response.json()) // Convertir la réponse en JSON
+    .catch((error) => {
+      console.error("Erreur de récupération des données des oeuvres:", error);
+    });
+}
+
+// Récupérer les données des catégories et créer les boutons de filtre
+function fetchCategories() {
+  return fetch("http://localhost:5678/api/categories")
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Erreur de récupération des données:", error);
+    });
+}
+
 // Fonction pour créer et afficher une œuvre dans la galerie
 function creerEtAfficherOeuvre(oeuvre) {
   // Création d'un élément de figure pour l'œuvre
@@ -21,20 +39,17 @@ function creerEtAfficherOeuvre(oeuvre) {
   galerie.appendChild(figureElement);
 }
 
-// Requête Fetch pour obtenir les données JSON
-fetch("http://localhost:5678/api/works")
-  .then((response) => response.json()) // Convertir la réponse en JSON
-  .then((data) => {
-    oeuvresData = data;
-    // Afficher toutes les œuvres initialement
-    data.forEach(creerEtAfficherOeuvre);
+fetchOeuvres().then((data) => {
+  oeuvresData = data;
+  // Afficher toutes les œuvres initialement
+  data.forEach(creerEtAfficherOeuvre);
 
-    const tousButton = document.createElement("button");
-    tousButton.classList.add("nav-projet");
-    tousButton.textContent = "Tous";
-    tousButton.addEventListener("click", afficherToutesOeuvres);
-    buttonFilter.appendChild(tousButton);
-  });
+  const tousButton = document.createElement("button");
+  tousButton.classList.add("nav-projet");
+  tousButton.textContent = "Tous";
+  tousButton.addEventListener("click", afficherToutesOeuvres);
+  buttonFilter.appendChild(tousButton);
+});
 
 // Récupérer la référence à l'élément contenant les boutons de filtre
 const buttonFilter = document.querySelector(".nav-list");
@@ -67,12 +82,11 @@ function afficherFiltre(nomCategorie) {
   );
   oeuvresFilter.forEach(creerEtAfficherOeuvre);
 }
-
 // Récupérer les données des catégories et créer les boutons de filtre
 fetch("http://localhost:5678/api/categories")
   .then((response) => response.json())
   .then((data) => {
-    data.forEach(creerFiltre);
+    data.forEach(creerFiltre); // Pour chaque catégorie, créer un bouton de filtre
   })
   .catch((error) => {
     console.error("Erreur de récupération des données:", error);
