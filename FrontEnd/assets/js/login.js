@@ -20,9 +20,18 @@ document.getElementById("login").addEventListener("submit", function (event) {
     body: JSON.stringify(formData),
   })
     .then((response) => {
-      if (response.status == 401) {
+      if (response.status === 401) {
         throw new Error("Erreur de connexion");
       }
+      return response.json();
+    })
+    .then((data) => {
+      // Stocker le jeton d'authentification côté client
+      const token = data.token; // Supposons que le jeton est renvoyé sous la clé "token" dans la réponse JSON
+      // Stocker le jeton dans le localStorage par exemple
+      localStorage.setItem("token", token);
+
+      // Rediriger l'utilisateur après une connexion réussie
       window.location.href = "/FrontEnd/assets/index_edit.html";
     })
     .catch((error) => {

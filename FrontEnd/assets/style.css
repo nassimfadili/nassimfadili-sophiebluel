@@ -313,8 +313,115 @@ button:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .modifier-hover p {
   padding: 10px;
+}
+
+.modal1 {
+  display: none;
+  justify-content: center; /* Cela centrera horizontalement l'élément */
+  align-items: center; /* Facultatif : centre également verticalement */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; /* Assurez-vous que le modal est au-dessus de tout le reste */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  width: 50em;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+.galerie-title {
+  padding: 50px;
+  color: black;
+  font-weight: lighter;
+}
+
+.images-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 50px;
+  gap: 10px;
+}
+
+.images-container img {
+  width: 76px;
+  height: 104px;
+  position: relative;
+  display: inline-block;
+}
+
+.image-container {
+  position: relative; /* Position déclarée */
+  display: inline-block;
+}
+
+.trash-icon {
+  position: absolute; /* Position absolue par rapport au conteneur */
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+  color: white;
+  background-color: black;
+  border-radius: 3px;
+}
+
+.separator {
+  border-top: 1px solid #b3b3b3; /* Couleur et épaisseur de la bordure */
+  margin: 20px 0; /* Marge au-dessus et en dessous du séparateur */
+}
+
+.button-ajout-photo {
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin: 2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+  border: none;
+}
+
+.modal2 {
+  display: none;
+  justify-content: center; /* Cela centrera horizontalement l'élément */
+  align-items: center; /* Facultatif : centre également verticalement */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; /* Assurez-vous que le modal est au-dessus de tout le reste */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 50em;
+  border-radius: 15px;
+  padding: 10px;
+  gap: 20px;
 }

@@ -58,6 +58,7 @@ function afficherToutesOeuvres() {
   galerie.innerHTML = ""; // Vider la galerie
   oeuvresData.forEach(creerEtAfficherOeuvre); // Afficher toutes les œuvres
 }
+
 // Fonction pour afficher les œuvres filtrées
 function afficherFiltre(nomCategorie) {
   galerie.innerHTML = "";
@@ -66,11 +67,12 @@ function afficherFiltre(nomCategorie) {
   );
   oeuvresFilter.forEach(creerEtAfficherOeuvre);
 }
+
 // Récupérer les données des catégories et créer les boutons de filtre
 fetch("http://localhost:5678/api/categories")
   .then((response) => response.json())
   .then((data) => {
-    data.forEach(creerFiltre); // Pour chaque catégorie, créer un bouton de filtre
+    data.forEach(creerFiltre);
   })
   .catch((error) => {
     console.error("Erreur de récupération des données:", error);
