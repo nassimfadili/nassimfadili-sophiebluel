@@ -80,7 +80,7 @@ modifierHoverElement.addEventListener("click", function (e) {
 function creerModal2() {
   // Création de la div principale de la modal
   const modalContent = document.createElement("div");
-  modalContent.classList.add("modal-content");
+  modalContent.classList.add("modal-content2");
 
   // Création de la croix de fermeture de la modal
   const closeButton = document.createElement("i");
@@ -178,7 +178,7 @@ function afficherModal2() {
 // Fonction pour revenir à modal1 depuis modal2
 function retourModal1() {
   modal2.style.display = "none";
-  modal1.style.display = "block";
+  modal1.style.display = "flex";
 }
 
 // Fonction pour ajouter une photo
