@@ -206,9 +206,9 @@ function ajouterPhoto() {
 
   // Ajout du jeton d'authentification
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNTcwMjUxMywiZXhwIjoxNzE1Nzg4OTEzfQ.S-RTzsMgeM4zSkArclIWhpqQXW2smdDULGhTrVI1VzA";
   const headers = new Headers();
-  headers.append("Authorization", `Bearer ${token}`);
+  headers.append("Authorization", `bearer ${token}`);
 
   // Envoi de la photo à l'API avec le jeton d'authentification
   fetch("http://localhost:5678/api/works", {
