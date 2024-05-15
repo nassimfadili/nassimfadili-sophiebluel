@@ -1,7 +1,7 @@
 const modal1 = document.querySelector(".modal1");
 const modal2 = document.querySelector(".modal2");
 
-function creerModal1(data) {
+async function creerModal1(data) {
   const divElementContent = document.createElement("div");
   divElementContent.classList.add("modal-content");
 
@@ -33,6 +33,14 @@ function creerModal1(data) {
 
     const trashIcon = document.createElement("i");
     trashIcon.classList.add("fa-solid", "fa-trash", "trash-icon");
+
+    // Ajout du gestionnaire d'événements pour supprimer l'image correspondante
+    trashIcon.addEventListener("click", () => {
+      const imageId = modal1.id; // Assurez-vous que modal1 contient l'ID de l'image
+      if (confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) {
+        supprimerImage(imageId);
+      }
+    });
 
     imageContainer.appendChild(imageModal);
     imageContainer.appendChild(trashIcon);
@@ -69,6 +77,41 @@ function afficherModal() {
 
 function cacherModal() {
   modal1.style.display = "none";
+}
+
+// Fonction pour afficher modal2 et masquer modal1
+function afficherModal2() {
+  modal1.style.display = "none";
+  modal2.style.display = "flex";
+}
+
+// Fonction pour revenir à modal1 depuis modal2
+function retourModal1() {
+  modal2.style.display = "none";
+  modal1.style.display = "flex";
+}
+
+// Fonction pour supprimer une image
+async function supprimerImage(id) {
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNTcwMjUxMywiZXhwIjoxNzE1Nzg4OTEzfQ.S-RTzsMgeM4zSkArclIWhpqQXW2smdDULGhTrVI1VzA";
+  const headers = new Headers();
+  headers.append("Authorization", `bearer ${token}`);
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: headers,
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la suppression de l'image.");
+    }
+
+    // Actualiser la liste des images après la suppression
+    await fetchModalData();
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'image :", error);
+  }
 }
 
 const modifierHoverElement = document.querySelector(".modifier-hover");
@@ -152,37 +195,25 @@ function creerModal2() {
 }
 
 // Fonction pour charger les catégories depuis l'API
-function chargerCategories() {
-  fetch("http://localhost:5678/api/categories")
-    .then((response) => response.json())
-    .then((data) => {
-      const select = document.getElementById("categorySelect");
-      data.forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.name;
-        select.appendChild(option);
-      });
-    })
-    .catch((error) => {
-      console.error("Erreur lors du chargement des catégories:", error);
+async function chargerCategories() {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const data = await response.json();
+
+    const select = document.getElementById("categorySelect");
+    data.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
+      select.appendChild(option);
     });
-}
-
-// Fonction pour afficher modal2 et masquer modal1
-function afficherModal2() {
-  modal1.style.display = "none";
-  modal2.style.display = "flex";
-}
-
-// Fonction pour revenir à modal1 depuis modal2
-function retourModal1() {
-  modal2.style.display = "none";
-  modal1.style.display = "flex";
+  } catch (error) {
+    console.error("Erreur lors du chargement des catégories:", error);
+  }
 }
 
 // Fonction pour ajouter une photo
-function ajouterPhoto() {
+async function ajouterPhoto() {
   const titleInput = document.getElementById("titleInput").value;
   const categorySelect = document.getElementById("categorySelect").value;
   const fileInput = document.getElementById("fileInput").files[0];
@@ -211,21 +242,23 @@ function ajouterPhoto() {
   headers.append("Authorization", `bearer ${token}`);
 
   // Envoi de la photo à l'API avec le jeton d'authentification
-  fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: headers,
-    body: formData,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Erreur lors de l'ajout de l'image.");
-      }
-      alert("Image ajoutée avec succès !");
-      retourModal1(); // Retour à modal1 après l'ajout de l'image
-    })
-    .catch((error) => {
-      console.error("Erreur lors de l'ajout de l'image :", error);
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: headers,
+      body: formData,
     });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'ajout de l'image.");
+    }
+
+    alert("Image ajoutée avec succès !");
+    //retourModal1(); // Retour à modal1 après l'ajout de l'image
+    //fetchModalData();//
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'image :", error);
+  }
 }
 
 // Fonction pour vérifier la taille et le format de l'image
