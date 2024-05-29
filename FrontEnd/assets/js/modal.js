@@ -1,13 +1,16 @@
 const modal1 = document.querySelector(".modal1");
 const modal2 = document.querySelector(".modal2");
 
+// Fonction pour créer la première modal
 async function creerModal1(data) {
+  modal1.innerHTML = ""; // Vider le contenu existant de la modal1 avant de la remplir
+
   const divElementContent = document.createElement("div");
   divElementContent.classList.add("modal-content");
 
   const closeButtonSpan = document.createElement("i");
   closeButtonSpan.classList.add("close", "fas", "fa-times");
-  closeButtonSpan.addEventListener("click", cacherModal);
+  closeButtonSpan.addEventListener("click", cacherModal1);
 
   const titreElement = document.createElement("h2");
   titreElement.classList.add("galerie-title");
@@ -24,19 +27,19 @@ async function creerModal1(data) {
   buttonAjoutPhoto.textContent = "Ajouter une photo";
   buttonAjoutPhoto.addEventListener("click", afficherModal2);
 
-  data.forEach((modal1) => {
+  data.forEach((item) => {
     const imageContainer = document.createElement("div");
     imageContainer.classList.add("image-container");
 
     const imageModal = document.createElement("img");
-    imageModal.src = modal1.imageUrl;
+    imageModal.src = item.imageUrl;
 
     const trashIcon = document.createElement("i");
     trashIcon.classList.add("fa-solid", "fa-trash", "trash-icon");
 
     // Ajout du gestionnaire d'événements pour supprimer l'image correspondante
     trashIcon.addEventListener("click", () => {
-      const imageId = modal1.id; // Assurez-vous que modal1 contient l'ID de l'image
+      const imageId = item.id;
       if (confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) {
         supprimerImage(imageId);
       }
@@ -71,32 +74,47 @@ function fetchModalData() {
 
 fetchModalData();
 
-function afficherModal() {
+function afficherModal1() {
   modal1.style.display = "flex";
 }
 
-function cacherModal() {
+function cacherModal1() {
   modal1.style.display = "none";
 }
 
-// Fonction pour afficher modal2 et masquer modal1
 function afficherModal2() {
   modal1.style.display = "none";
   modal2.style.display = "flex";
 }
 
-// Fonction pour revenir à modal1 depuis modal2
 function retourModal1() {
   modal2.style.display = "none";
   modal1.style.display = "flex";
 }
 
-// Fonction pour supprimer une image
+function getTokenExpired() {
+  const itemStr = localStorage.getItem("token");
+  // if the item doesn't exist, return null
+  if (!itemStr) {
+    return null;
+  }
+  const item = JSON.parse(itemStr);
+  const now = new Date();
+  // compare the expiry time of the item with the current time
+  if (now.getTime() > item.expiry) {
+    // If the item is expired, delete the item from storage
+    // and return null
+    localStorage.removeItem("token");
+    return null;
+  }
+  return item.value;
+}
+
 async function supprimerImage(id) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNTcwMjUxMywiZXhwIjoxNzE1Nzg4OTEzfQ.S-RTzsMgeM4zSkArclIWhpqQXW2smdDULGhTrVI1VzA";
+  const IsTokenValid = getTokenExpired();
+  if (IsTokenValid == null) window.location.href = "login.html";
   const headers = new Headers();
-  headers.append("Authorization", `bearer ${token}`);
+  headers.append("Authorization", `bearer ${IsTokenValid}`);
   try {
     const response = await fetch(`http://localhost:5678/api/works/${id}`, {
       method: "DELETE",
@@ -108,79 +126,61 @@ async function supprimerImage(id) {
     }
 
     // Actualiser la liste des images après la suppression
-    await fetchModalData();
+    fetchModalData();
   } catch (error) {
     console.error("Erreur lors de la suppression de l'image :", error);
   }
 }
 
 const modifierHoverElement = document.querySelector(".modifier-hover");
-modifierHoverElement.addEventListener("click", function (e) {
-  afficherModal();
-});
+if (modifierHoverElement) {
+  modifierHoverElement.addEventListener("click", function (e) {
+    afficherModal1();
+  });
+}
 
 // Fonction pour créer la modal2
-function creerModal2() {
-  // Création de la div principale de la modal
+async function creerModal2() {
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content2");
 
-  // Création de la croix de fermeture de la modal
   const closeButton = document.createElement("i");
   closeButton.classList.add("fas", "fa-times", "close");
-  closeButton.addEventListener("click", cacherModal);
+  closeButton.addEventListener("click", cacherModal2);
 
-  // Création du titre de la modal
   const titre = document.createElement("h2");
   titre.textContent = "Ajout Photo";
 
-  // Création de l'input pour télécharger une photo
   const inputPhoto = document.createElement("input");
   inputPhoto.type = "file";
   inputPhoto.id = "fileInput";
-  inputPhoto.accept = "image/png, image/jpeg"; // Filtre pour les fichiers image uniquement
+  inputPhoto.accept = "image/png, image/jpeg";
 
-  // Création de l'aperçu de l'image
   const previewImage = document.createElement("img");
   previewImage.classList.add("preview-image");
 
-  // Gestion du téléchargement de l'image
-  inputPhoto.addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        previewImage.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  // Création de l'input pour le titre de la photo
   const inputTitre = document.createElement("input");
   inputTitre.type = "text";
   inputTitre.placeholder = "Titre";
   inputTitre.id = "titleInput";
 
-  // Création de l'input pour la catégorie
   const inputCategorie = document.createElement("select");
   inputCategorie.id = "categorySelect";
   inputCategorie.placeholder = "Catégorie";
 
-  // Appel de la fonction pour charger les catégories depuis l'API
   chargerCategories();
 
-  // Création du bouton de validation
   const btnValider = document.createElement("button");
   btnValider.textContent = "Valider";
-  btnValider.addEventListener("click", ajouterPhoto);
+  btnValider.addEventListener("click", async (event) => {
+    event.preventDefault();
+    ajouterPhoto();
+  });
 
-  // Création de la flèche de retour à modal1
   const retourArrow = document.createElement("i");
   retourArrow.classList.add("fas", "fa-arrow-left", "back-icon");
   retourArrow.addEventListener("click", retourModal1);
 
-  // Ajout de tous les éléments à la modal
   modalContent.appendChild(closeButton);
   modalContent.appendChild(titre);
   modalContent.appendChild(inputPhoto);
@@ -190,11 +190,9 @@ function creerModal2() {
   modalContent.appendChild(btnValider);
   modalContent.appendChild(retourArrow);
 
-  // Ajout de la modal à la div modal2
   modal2.appendChild(modalContent);
 }
 
-// Fonction pour charger les catégories depuis l'API
 async function chargerCategories() {
   try {
     const response = await fetch("http://localhost:5678/api/categories");
@@ -212,36 +210,34 @@ async function chargerCategories() {
   }
 }
 
-// Fonction pour ajouter une photo
 async function ajouterPhoto() {
   const titleInput = document.getElementById("titleInput").value;
   const categorySelect = document.getElementById("categorySelect").value;
   const fileInput = document.getElementById("fileInput").files[0];
+  console.log(document.getElementById("fileInput").files);
 
-  // Vérification des champs requis
   if (!titleInput || !categorySelect || !fileInput) {
     alert("Veuillez remplir tous les champs.");
     return;
   }
 
-  // Vérification de la taille et du type de l'image
   if (!verifierImage(fileInput)) {
     return;
   }
 
-  // Création de l'objet à envoyer
   const formData = new FormData();
   formData.append("title", titleInput);
-  formData.append("categoryId", categorySelect);
   formData.append("image", fileInput);
+  formData.append("category", categorySelect);
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
 
-  // Ajout du jeton d'authentification
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNTcwMjUxMywiZXhwIjoxNzE1Nzg4OTEzfQ.S-RTzsMgeM4zSkArclIWhpqQXW2smdDULGhTrVI1VzA";
+  const IsTokenValid = getTokenExpired();
+  if (IsTokenValid == null) window.location.href = "login.html";
   const headers = new Headers();
-  headers.append("Authorization", `bearer ${token}`);
+  headers.append("Authorization", `bearer ${IsTokenValid}`);
 
-  // Envoi de la photo à l'API avec le jeton d'authentification
   try {
     const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
@@ -254,16 +250,15 @@ async function ajouterPhoto() {
     }
 
     alert("Image ajoutée avec succès !");
-    //retourModal1(); // Retour à modal1 après l'ajout de l'image
-    //fetchModalData();//
+    retourModal1();
+    fetchModalData();
   } catch (error) {
     console.error("Erreur lors de l'ajout de l'image :", error);
   }
 }
 
-// Fonction pour vérifier la taille et le format de l'image
 function verifierImage(file) {
-  const MAX_SIZE = 2 * 1024 * 1024; // 2 Mo en octets
+  const MAX_SIZE = 2 * 1024 * 1024;
   const allowedTypes = ["image/png", "image/jpeg"];
   if (file.size > MAX_SIZE) {
     alert("La taille de l'image ne doit pas dépasser 2 Mo.");
@@ -276,10 +271,9 @@ function verifierImage(file) {
   return true;
 }
 
-// Fonction pour cacher la modal
-function cacherModal() {
+function cacherModal2() {
   modal2.style.display = "none";
 }
 
-// Appel de la fonction pour créer la modal2 au chargement de la page
+// Création initiale de la modal2
 creerModal2();
