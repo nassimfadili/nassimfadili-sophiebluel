@@ -281,3 +281,5 @@ function cacherModal2() {
 
 // Création initiale de la modal2
 creerModal2();
+
+//java script 
