@@ -334,6 +334,7 @@ button:hover {
 }
 
 .modal-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -344,8 +345,21 @@ button:hover {
 }
 
 .close {
-  float: right;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
+  font-size: 24px; /* Taille de la croix */
+  padding: 10px;
+}
+
+.back-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  font-size: 24px; /* Taille de la flèche de retour */
+  padding: 10px;
 }
 
 .galerie-title {
@@ -355,23 +369,19 @@ button:hover {
 }
 
 .images-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Trois colonnes de largeur égale */
+  gap: 20px; /* Espace entre les éléments */
   padding: 0 50px;
-  gap: 10px;
-}
-
-.images-container img {
-  width: 76px;
-  height: 104px;
-  position: relative;
-  display: inline-block;
 }
 
 .image-container {
   position: relative; /* Position déclarée */
-  display: inline-block;
+}
+
+.images-container img {
+  width: 100%; /* L'image prend toute la largeur de son conteneur */
+  height: auto; /* Hauteur automatique pour garder les proportions */
 }
 
 .trash-icon {
@@ -381,13 +391,18 @@ button:hover {
   z-index: 1;
   color: white;
   background-color: black;
-  border-radius: 3px;
+  border-radius: 15%; /* Forme circulaire */
+  padding: 5px; /* Plus de padding pour un fond plus grand */
+  font-size: 15px; /* Taille de l'icône plus grande */
 }
 
+
 .separator {
-  border-top: 1px solid #b3b3b3; /* Couleur et épaisseur de la bordure */
-  margin: 20px 0; /* Marge au-dessus et en dessous du séparateur */
+  border-top: 2px solid #a9a9a9; /* Couleur gris plus foncé et épaisseur plus importante */
+  margin: 20px auto; /* Centrer la ligne séparateur */
+  width: 70%; /* Réduire la longueur de la ligne */
 }
+
 
 .button-ajout-photo {
   font-family: "Syne";
@@ -395,10 +410,12 @@ button:hover {
   color: white;
   background-color: #1d6154;
   margin: 2em auto;
-  width: 180px;
+  width: 300px;
   text-align: center;
   border-radius: 60px;
   border: none;
+  font-size: 16px; /* Augmenter la taille de la police */
+  padding: 10px 0; /* Ajouter plus de padding pour rendre le bouton plus épais */
 }
 
 .modal2 {
@@ -415,6 +432,7 @@ button:hover {
 }
 
 .modal-content2 {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -424,4 +442,28 @@ button:hover {
   border-radius: 15px;
   padding: 10px;
   gap: 20px;
+}
+
+.contact-title {
+  margin-bottom: 1em;
+  font-family: "Syne";
+  font-weight: 700;
+  font-size: 20px;
+  color: #1d6154;
+}
+
+.contact-input {
+  height: 50px;
+  width: 500px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  margin-bottom: 20px; /* Ajustez la marge pour correspondre à votre mise en page */
+}
+
+.preview-image {
+  height: 100px;
+  width: 500px;
+  background-color:#E8F1F6;
+  ;
 }

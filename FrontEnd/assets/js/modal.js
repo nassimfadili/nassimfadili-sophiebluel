@@ -35,7 +35,7 @@ async function creerModal1(data) {
     imageModal.src = item.imageUrl;
 
     const trashIcon = document.createElement("i");
-    trashIcon.classList.add("fa-solid", "fa-trash", "trash-icon");
+    trashIcon.classList.add("fa-solid", "fa-trash-can", "trash-icon");
 
     // Ajout du gestionnaire d'événements pour supprimer l'image correspondante
     trashIcon.addEventListener("click", () => {
@@ -57,7 +57,7 @@ async function creerModal1(data) {
   divElementContent.appendChild(buttonAjoutPhoto);
   modal1.appendChild(divElementContent);
 }
-
+// Fonction pour afficher les images dans la modal
 function fetchModalData() {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
@@ -71,27 +71,28 @@ function fetchModalData() {
       );
     });
 }
-
+// Appelle de la fonction pour afficher les images dans la modal
 fetchModalData();
-
+// Fonction pour afficher la modal au clique sur le bouton "modifer"
 function afficherModal1() {
   modal1.style.display = "flex";
 }
 
+// Fonction pour cacher la modal lorsqu'on clique sur 'x'
 function cacherModal1() {
   modal1.style.display = "none";
 }
-
+// Fonction pour passer a la deuxieme modal lorsqu'on clique sur 'valider'
 function afficherModal2() {
   modal1.style.display = "none";
   modal2.style.display = "flex";
 }
-
+// Fonction qui permet de retourner en arrière
 function retourModal1() {
   modal2.style.display = "none";
   modal1.style.display = "flex";
 }
-
+// Fonction qui verifie si le token est valide
 function getTokenExpired() {
   const itemStr = localStorage.getItem("token");
   // if the item doesn't exist, return null
@@ -109,7 +110,7 @@ function getTokenExpired() {
   }
   return item.value;
 }
-
+// Fonction qui permet de suppimer une image dans la modal 2 
 async function supprimerImage(id) {
   const IsTokenValid = getTokenExpired();
   if (IsTokenValid == null) window.location.href = "login.html";
@@ -131,7 +132,7 @@ async function supprimerImage(id) {
     console.error("Erreur lors de la suppression de l'image :", error);
   }
 }
-
+// permet d'ouvrir la modal 1 au click
 const modifierHoverElement = document.querySelector(".modifier-hover");
 if (modifierHoverElement) {
   modifierHoverElement.addEventListener("click", function (e) {
@@ -139,7 +140,7 @@ if (modifierHoverElement) {
   });
 }
 
-// Fonction pour créer la modal2
+// Fonction pour créer la modal 2 
 async function creerModal2() {
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content2");
@@ -150,6 +151,7 @@ async function creerModal2() {
 
   const titre = document.createElement("h2");
   titre.textContent = "Ajout Photo";
+  titre.classList.add("contact-title");
 
   const inputPhoto = document.createElement("input");
   inputPhoto.type = "file";
@@ -163,10 +165,12 @@ async function creerModal2() {
   inputTitre.type = "text";
   inputTitre.placeholder = "Titre";
   inputTitre.id = "titleInput";
+  inputTitre.classList.add("contact-input");
 
   const inputCategorie = document.createElement("select");
   inputCategorie.id = "categorySelect";
   inputCategorie.placeholder = "Catégorie";
+  inputCategorie.classList.add("contact-input");
 
   chargerCategories();
 
@@ -192,7 +196,7 @@ async function creerModal2() {
 
   modal2.appendChild(modalContent);
 }
-
+// Fonction qui charge les categorie dans la modal2
 async function chargerCategories() {
   try {
     const response = await fetch("http://localhost:5678/api/categories");
@@ -209,7 +213,7 @@ async function chargerCategories() {
     console.error("Erreur lors du chargement des catégories:", error);
   }
 }
-
+// Fonction qui permet d'ajouter une photo dans la modal 2
 async function ajouterPhoto() {
   const titleInput = document.getElementById("titleInput").value;
   const categorySelect = document.getElementById("categorySelect").value;
@@ -256,7 +260,7 @@ async function ajouterPhoto() {
     console.error("Erreur lors de l'ajout de l'image :", error);
   }
 }
-
+// Fonction qui verifie si l'image est a la bonne taille
 function verifierImage(file) {
   const MAX_SIZE = 2 * 1024 * 1024;
   const allowedTypes = ["image/png", "image/jpeg"];
@@ -270,7 +274,7 @@ function verifierImage(file) {
   }
   return true;
 }
-
+// Fonction qui permet de cacher la modal2 au clique sur 'x'
 function cacherModal2() {
   modal2.style.display = "none";
 }
