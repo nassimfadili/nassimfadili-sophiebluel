@@ -1,8 +1,8 @@
-# Portfolio-architecte-sophie-bluel
+Projet Sophie Bluel
 
-Code du projet 6 d'intégrateur web.
+Objectifs :
 
-## Information pour le lancer le code
-
- - Lancer le backend depuis votre terminal en suivant les instruction du fichier ReadMe.
- - Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+Créer des filtres en JavaScript pour les galeries.
+Créer des modales en JavaScript.
+Créer des requêtes API pour ajouter, supprimer et modifier des images.
+Créer des requêtes API pour se connecter et se déconnecter de la page.
