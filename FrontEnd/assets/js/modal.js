@@ -110,7 +110,7 @@ function getTokenExpired() {
   }
   return item.value;
 }
-// Fonction qui permet de suppimer une image dans la modal 2 
+// Fonction qui permet de suppimer une image dans la modal 2
 async function supprimerImage(id) {
   const IsTokenValid = getTokenExpired();
   if (IsTokenValid == null) window.location.href = "login.html";
@@ -140,7 +140,7 @@ if (modifierHoverElement) {
   });
 }
 
-// Fonction pour créer la modal 2 
+// Fonction pour créer la modal 2
 async function creerModal2() {
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content2");
@@ -149,17 +149,31 @@ async function creerModal2() {
   closeButton.classList.add("fas", "fa-times", "close");
   closeButton.addEventListener("click", cacherModal2);
 
-  const titre = document.createElement("h2");
-  titre.textContent = "Ajout Photo";
-  titre.classList.add("contact-title");
+  const titre = document.createElement("h1");
+
+  const spanText = document.createElement("span");
+  spanText.textContent = "Ajout Photo";
+
+  const divPreviewImage = document.createElement("div");
+  divPreviewImage.id = "divPreviewImage";
+
+  const addButton = document.createElement("button");
+  addButton.textContent = "+ ajouter photo";
 
   const inputPhoto = document.createElement("input");
+  inputPhoto.placeholder = "+ Ajouter photo";
   inputPhoto.type = "file";
   inputPhoto.id = "fileInput";
   inputPhoto.accept = "image/png, image/jpeg";
+  inputPhoto.style.display = "none";
+
+  addButton.addEventListener("click", () => {
+    fileInput.click();
+  });
 
   const previewImage = document.createElement("img");
   previewImage.classList.add("preview-image");
+  previewImage.src = "./icons/picture-svgrepo-com.png";
 
   const inputTitre = document.createElement("input");
   inputTitre.type = "text";
@@ -175,6 +189,7 @@ async function creerModal2() {
   chargerCategories();
 
   const btnValider = document.createElement("button");
+  btnValider.classList.add("button-ajout-photo");
   btnValider.textContent = "Valider";
   btnValider.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -186,9 +201,12 @@ async function creerModal2() {
   retourArrow.addEventListener("click", retourModal1);
 
   modalContent.appendChild(closeButton);
+  titre.appendChild(spanText);
   modalContent.appendChild(titre);
   modalContent.appendChild(inputPhoto);
-  modalContent.appendChild(previewImage);
+  divPreviewImage.appendChild(addButton);
+  divPreviewImage.appendChild(previewImage);
+  modalContent.appendChild(divPreviewImage);
   modalContent.appendChild(inputTitre);
   modalContent.appendChild(inputCategorie);
   modalContent.appendChild(btnValider);
@@ -282,4 +300,4 @@ function cacherModal2() {
 // Création initiale de la modal2
 creerModal2();
 
-//java script 
+//java script
