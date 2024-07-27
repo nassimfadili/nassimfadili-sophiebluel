@@ -1,7 +1,12 @@
+const header = document.querySelector("header");
+console.log(header);
 const modal1 = document.querySelector(".modal1");
 const modal2 = document.querySelector(".modal2");
 
+// affichage de la barre noir  superieur en mode edition
+
 // Fonction pour créer la première modal
+
 async function creerModal1(data) {
   modal1.innerHTML = ""; // Vider le contenu existant de la modal1 avant de la remplir
 
@@ -12,9 +17,10 @@ async function creerModal1(data) {
   closeButtonSpan.classList.add("close", "fas", "fa-times");
   closeButtonSpan.addEventListener("click", cacherModal1);
 
-  const titreElement = document.createElement("h2");
-  titreElement.classList.add("galerie-title");
-  titreElement.textContent = "Galerie Photo";
+  const titreElement = document.createElement("h1");
+
+  const spanText = document.createElement("span");
+  spanText.textContent = "Galerie Photo";
 
   const divImagesContainer = document.createElement("div");
   divImagesContainer.classList.add("images-container");
@@ -45,6 +51,7 @@ async function creerModal1(data) {
       }
     });
 
+    titreElement.appendChild(spanText);
     imageContainer.appendChild(imageModal);
     imageContainer.appendChild(trashIcon);
     divImagesContainer.appendChild(imageContainer);
