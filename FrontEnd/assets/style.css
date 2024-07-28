@@ -6,7 +6,6 @@
 html,
 body,
 div,
-span,
 applet,
 object,
 iframe,
@@ -149,6 +148,12 @@ body {
   padding-top: 50px;
 }
 
+.basic_navbar {
+  font-family: "Work Sans";
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
 section {
   margin: 50px 0;
 }
@@ -162,20 +167,11 @@ h1 {
   color: #b1663c;
 }
 
-h1 > span {
-  font-family: "Work Sans";
-  font-size: 26px;
-  letter-spacing: 0.1em;
-  color: black;
-  padding: 20px;
-}
-
 h2 {
   font-family: "Syne";
   font-weight: 700;
   font-size: 30px;
   color: #1d6154;
-  text-align: center;
 }
 nav ul {
   display: flex;
@@ -184,7 +180,7 @@ nav ul {
 }
 nav li {
   padding: 0 10px;
-  font-size: 1.2em;
+  font-size: 16px;
 }
 
 li:hover {
@@ -308,8 +304,10 @@ button:hover {
   color: white;
 }
 
-.projet {
+#Projets {
+  display: flex;
   padding: 50px 20px;
+  justify-content: center;
 }
 
 .edit-projet {
@@ -317,6 +315,8 @@ button:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  padding-bottom: 15px;
 }
 
 .modifier-hover {
@@ -533,6 +533,18 @@ button:hover {
   justify-content: space-between;
   padding-top: 50px;
 }
+
+#span-nav {
+  color: #93532f;
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 .blackBar {
   display: flex;
   flex-direction: row;
@@ -542,4 +554,10 @@ button:hover {
   color: white;
   padding: 10px;
   gap: 10px;
+}
+
+.div-h1-span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
