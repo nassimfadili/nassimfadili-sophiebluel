@@ -358,6 +358,7 @@ button:hover {
   align-items: center;
   box-sizing: border-box;
   overflow: hidden; /* Cache tout débordement */
+  gap: 20px;
 }
 
 .close {
@@ -387,20 +388,21 @@ button:hover {
   margin: 10px 0;
 }
 .images-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
   padding: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-y: auto; /* Permet le défilement vertical si nécessaire */
-  max-height: calc(90vh - 200px); /* Ajustez cette valeur selon vos besoins */
+  width: auto;
+  align-items: center;
+  align-content: center;
 }
 
 .image-container {
   position: relative;
-  aspect-ratio: 1 / 1; /* Maintient un ratio carré */
   overflow: hidden;
+  width: 15%;
+  align-content: center;
 }
 
 .images-container img {
@@ -505,6 +507,7 @@ button:hover {
 
 #divPreviewImage img {
   width: 20%;
+  cursor: pointer;
 }
 
 #divPreviewImage button {

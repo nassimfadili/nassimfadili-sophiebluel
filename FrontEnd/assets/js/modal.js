@@ -175,12 +175,27 @@ async function creerModal2() {
   inputPhoto.style.display = "none";
 
   addButton.addEventListener("click", () => {
-    fileInput.click();
+    inputPhoto.click();
   });
 
   const previewImage = document.createElement("img");
   previewImage.classList.add("preview-image");
   previewImage.src = "./icons/picture-svgrepo-com.png";
+  previewImage.addEventListener("click", () => {
+    inputPhoto.click();
+  });
+
+  inputPhoto.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+        addButton.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
   const inputTitre = document.createElement("input");
   inputTitre.type = "text";
