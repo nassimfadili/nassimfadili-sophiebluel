@@ -31,6 +31,7 @@ async function getUsers() {
     }
 
     const data = await response.json();
+
     const now = new Date();
     const tokenObject = {
       value: data.token,
